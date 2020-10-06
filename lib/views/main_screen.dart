@@ -1,0 +1,82 @@
+import 'package:flutter/material.dart';
+import 'package:rgbify/theme/routes.dart';
+
+class LoadingView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    //For crating dynamic page layout
+    final mq = MediaQuery.of(context);
+    final logo = Image.asset(
+      "assets/rgbifylogo.png",
+      fit: BoxFit.contain,
+    );
+
+    final loginButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(25),
+      color: Colors.white,
+      child: MaterialButton(
+        //Button will always appear the same regardless of device
+        minWidth: mq.size.width / 1.2,
+        padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+        child: Text("Login",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            )),
+        onPressed: () {
+          Navigator.of(context).pushNamed(AppRoutes.authLogin);
+        },
+      ),
+    );
+
+    final registerButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(25),
+      color: Colors.white,
+      child: MaterialButton(
+        //Button will always appear the same regardless of device
+        minWidth: mq.size.width / 1.2,
+        padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+        child: Text("Register",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20.0,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            )),
+        onPressed: () {
+          Navigator.of(context).pushNamed(AppRoutes.authRegister);
+        },
+      ),
+    );
+
+    final buttons = Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        loginButton,
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 15, 0 , 70),
+          child: registerButton,
+        ),
+      ],
+    );
+
+    return Scaffold(
+      backgroundColor: Colors.orange,
+      body: Padding(
+        padding: EdgeInsets.all(36),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            logo,
+            buttons,
+          ],
+        ),
+      ),
+    );
+  }
+}
