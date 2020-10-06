@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/theme/routes.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Register extends StatefulWidget {
   @override
   _RegisterViewState createState() => _RegisterViewState();
-
 }
 
 class _RegisterViewState extends State<Register> {
@@ -132,8 +133,30 @@ class _RegisterViewState extends State<Register> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
-        onPressed: () {
-          //TODO: Handle authentication
+        onPressed: () async {
+          try {
+            UserCredential userCredential = await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+                    email: _emailController.toString(),
+                    password: _passwordController.toString());
+
+            if (userCredential != null) {
+              Navigator.of(context).pushNamed(AppRoutes.controllers);
+            }
+
+          } on FirebaseAuthException catch (e) {
+            if (e.code == 'email-already-in-use') {
+              print('An account with this email already exists.');
+            }
+          }
+          catch (e) {
+            //TODO: Alert the user of the error
+            _nameController.text = " ";
+            _emailController.text = " ";
+            _passwordController.text = " ";
+            _repasswordController.text = " ";
+            print(e);
+          }
         },
       ),
     );
@@ -151,8 +174,7 @@ class _RegisterViewState extends State<Register> {
           children: [
             Text(
               "Already have an account?",
-              style: Theme
-                  .of(context)
+              style: Theme.of(context)
                   .textTheme
                   .subtitle1
                   .copyWith(color: Colors.white),
@@ -160,8 +182,7 @@ class _RegisterViewState extends State<Register> {
             MaterialButton(
               child: Text(
                 "Login",
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .subtitle1
                     .copyWith(color: Colors.white),

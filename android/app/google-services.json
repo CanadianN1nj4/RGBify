@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "389044463712",
+    "firebase_url": "https://rgbify-3c474.firebaseio.com",
+    "project_id": "rgbify-3c474",
+    "storage_bucket": "rgbify-3c474.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389044463712:android:6a3ab6ca90262dc1ddfb05",
+        "android_client_info": {
+          "package_name": "com.example.rgbify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389044463712-tl4jcmfa6i6fbit4dgc3qc937ncedpf8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg1OyKnjAUArm2q-A7vgsDy3rntLpnevg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389044463712-tl4jcmfa6i6fbit4dgc3qc937ncedpf8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
