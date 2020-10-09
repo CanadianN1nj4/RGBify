@@ -42,8 +42,8 @@ class ControllersViewState extends State<Controllers> {
                       },
                       title: Text(controllers[index].location),
                       leading: CircleAvatar(
-                        child: Image.asset('assets/rgbifylogo.png'),
-                        backgroundColor: Colors.black,
+                        child: Image.asset('assets/controller.png'),
+                        backgroundColor: Colors.white,
                       ),
                       subtitle: Text(
                         controllers[index].IPAddress,
