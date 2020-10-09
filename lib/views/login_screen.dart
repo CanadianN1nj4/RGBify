@@ -108,21 +108,20 @@ class _LoginViewState extends State<Login> {
               fontWeight: FontWeight.bold,
             )),
         onPressed: () async {
-          try {
+          Navigator.of(context).pushNamed(AppRoutes.controllers);
+          /*try {
             UserCredential userCredential = await FirebaseAuth.instance
                 .signInWithEmailAndPassword(
                     email: _emailController.toString(),
                     password: _passwordController.toString());
 
-            if (userCredential != null) {
-              Navigator.of(context).pushNamed(AppRoutes.controllers);
-            }
+            Navigator.of(context).pushNamed(AppRoutes.controllers);
 
           } on FirebaseAuthException catch (e) {
             if (e.code == 'user-not-found' || e.code == 'wrong-password') {
               print('Incorrect email or password. Try Again.');
             }
-          }
+          }*/
         },
       ),
     );
