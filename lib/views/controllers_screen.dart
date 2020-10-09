@@ -53,6 +53,8 @@ class ControllersViewState extends State<Controllers> {
                       ),
                       onLongPress: () {
                         setState(() {
+                          //TODO:Delete the currently long pressed item instead of the last one
+                          //TODO: find a better way to remove items
                           controllers.removeAt(index);
                         });
                       },
@@ -61,16 +63,23 @@ class ControllersViewState extends State<Controllers> {
                 },
               ),
             ),
-            FloatingActionButton(
-              onPressed: () {
-                setState(() {
-                  controllers
-                      .add(new Controller("Living Room", "192.168.37.4"));
-                });
-              },
-              tooltip: 'Increment',
-              child: Icon(Icons.add),
-            )
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(300, 0, 0, 20),
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      setState(() {
+                        controllers.add(new Controller("Living Room", "192.168.37.4"));
+                      });
+                    },
+                    child: Icon(Icons.add),
+                    backgroundColor: Colors.orange,
+                  ),
+                ),
+              ],
+            ),
           ],
         ));
   }
