@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/theme/routes.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Login extends StatefulWidget {
   @override
   _LoginViewState createState() => _LoginViewState();
@@ -105,8 +107,21 @@ class _LoginViewState extends State<Login> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
-        onPressed: () {
-          //TODO: Handle authentication
+        onPressed: () async {
+          Navigator.of(context).pushNamed(AppRoutes.controllers);
+          /*try {
+            UserCredential userCredential = await FirebaseAuth.instance
+                .signInWithEmailAndPassword(
+                    email: _emailController.toString(),
+                    password: _passwordController.toString());
+
+            Navigator.of(context).pushNamed(AppRoutes.controllers);
+
+          } on FirebaseAuthException catch (e) {
+            if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+              print('Incorrect email or password. Try Again.');
+            }
+          }*/
         },
       ),
     );
@@ -137,7 +152,7 @@ class _LoginViewState extends State<Login> {
                     .subtitle1
                     .copyWith(color: Colors.white),
               ),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context).pushNamed(AppRoutes.authRegister);
               },
             ),

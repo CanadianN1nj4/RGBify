@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/theme/routes.dart';
 
-class LoadingView extends StatelessWidget {
+class WelcomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //For crating dynamic page layout
