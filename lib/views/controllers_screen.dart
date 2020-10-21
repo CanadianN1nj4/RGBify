@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/model/Controller.dart';
+import 'package:rgbify/theme/routes.dart';
 
 class Controllers extends StatefulWidget {
   Controllers();
@@ -39,6 +40,7 @@ class ControllersViewState extends State<Controllers> {
                     child: ListTile(
                       onTap: () {
                         //TODO: Open websocket connection and communicate with ESP32 to change light color
+                        Navigator.of(context).pushNamed(AppRoutes.commands);
                       },
                       title: Text(controllers[index].location),
                       leading: CircleAvatar(

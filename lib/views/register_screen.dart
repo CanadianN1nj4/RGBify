@@ -74,6 +74,7 @@ class _RegisterViewState extends State<Register> {
       style: TextStyle(
         color: Colors.white,
       ),
+      obscureText: true,
       decoration: InputDecoration(
         hintText: "........",
         labelText: "Password",
@@ -93,6 +94,7 @@ class _RegisterViewState extends State<Register> {
       style: TextStyle(
         color: Colors.white,
       ),
+      obscureText: true,
       decoration: InputDecoration(
         hintText: "........",
         labelText: "Retype Password",
