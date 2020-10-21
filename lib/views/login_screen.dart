@@ -50,6 +50,7 @@ class _LoginViewState extends State<Login> {
           style: TextStyle(
             color: Colors.white,
           ),
+          obscureText: true,
           decoration: InputDecoration(
             hintText: "........",
             labelText: "Password",
