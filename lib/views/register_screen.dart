@@ -11,10 +11,10 @@ class Register extends StatefulWidget {
 class _RegisterViewState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController _nameController;
-  TextEditingController _emailController;
-  TextEditingController _passwordController;
-  TextEditingController _repasswordController;
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _repasswordController = TextEditingController();
 
   bool isSubmitting = false;
 
@@ -136,27 +136,22 @@ class _RegisterViewState extends State<Register> {
               fontWeight: FontWeight.bold,
             )),
         onPressed: () async {
+          //TODO: handle repasword missmatch
           try {
-            UserCredential userCredential = await FirebaseAuth.instance
-                .createUserWithEmailAndPassword(
-                    email: _emailController.toString(),
-                    password: _passwordController.toString());
-
-            if (userCredential != null) {
+            UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                email: _emailController.text,
+                password: _passwordController.text,
+            );
+          } on FirebaseAuthException catch (e) {
+            if (e.code == 'weak-password') {
+              print('The password provided is too weak.');
+            } else if (e.code == 'email-already-in-use') {
+              print('The account already exists for that email.');
+            } else {
+              //No errors. Navigate to controllers screen
               Navigator.of(context).pushNamed(AppRoutes.controllers);
             }
-
-          } on FirebaseAuthException catch (e) {
-            if (e.code == 'email-already-in-use') {
-              print('An account with this email already exists.');
-            }
-          }
-          catch (e) {
-            //TODO: Alert the user of the error
-            _nameController.text = " ";
-            _emailController.text = " ";
-            _passwordController.text = " ";
-            _repasswordController.text = " ";
+          } catch (e) {
             print(e);
           }
         },
