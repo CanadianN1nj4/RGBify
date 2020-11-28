@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/theme/routes.dart';
 
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Login extends StatefulWidget {
@@ -112,22 +111,21 @@ class _LoginViewState extends State<Login> {
         onPressed: () async {
           try {
             //Authorize user with email/password
-            UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                email: _emailController.text,
-                password: _passwordController.text,
+            UserCredential userCredential =
+                await FirebaseAuth.instance.signInWithEmailAndPassword(
+              email: _emailController.text,
+              password: _passwordController.text,
             );
+            Navigator.pushNamed(context, AppRoutes.controllers);
           } on FirebaseAuthException catch (e) {
             if (e.code == 'user-not-found') {
               print('No user found for that email.');
             } else if (e.code == 'wrong-password') {
               print('Wrong password provided for that user.');
             } else {
-              //No errors. Navigate to controllers screen
-              Navigator.of(context).pushNamed(AppRoutes.controllers);
+              print('Some other error');
             }
           }
-
-
         },
       ),
     );

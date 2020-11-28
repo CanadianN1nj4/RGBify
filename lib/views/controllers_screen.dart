@@ -7,7 +7,6 @@ import './BluetoothDeviceListEntry.dart';
 import 'package:rgbify/views/ChatPage.dart';
 
 class Controllers extends StatefulWidget {
-
   final bool checkAvailability;
 
   const Controllers({this.checkAvailability = true});
@@ -17,9 +16,9 @@ class Controllers extends StatefulWidget {
 }
 
 enum _DeviceAvailability {
-    no,
-    maybe,
-    yes,
+  no,
+  maybe,
+  yes,
 }
 
 class _DeviceWithAvailability extends BluetoothDevice {
@@ -31,10 +30,9 @@ class _DeviceWithAvailability extends BluetoothDevice {
 }
 
 class ControllersViewState extends State<Controllers> {
-
   List<_DeviceWithAvailability> devices = List<_DeviceWithAvailability>();
 
-    // Availability
+  // Availability
   StreamSubscription<BluetoothDiscoveryResult> _discoveryStreamSubscription;
   bool _isDiscovering;
 
@@ -42,8 +40,6 @@ class ControllersViewState extends State<Controllers> {
 
   //Stores the controllers under the users account for displaying on list
   List<Controller> controllers = <Controller>[];
-
-
 
   @override
   void initState() {
@@ -74,10 +70,6 @@ class ControllersViewState extends State<Controllers> {
     });
   }
 
-  
-
-
-
   void _restartDiscovery() {
     setState(() {
       _isDiscovering = true;
@@ -106,7 +98,6 @@ class ControllersViewState extends State<Controllers> {
         _isDiscovering = false;
       });
     });
-
   }
 
   void _startChat(BuildContext context, BluetoothDevice server) {
@@ -180,7 +171,8 @@ class ControllersViewState extends State<Controllers> {
                     onPressed: () {
                       setState(() {
                         //controllers.add(new Controller("Living Room", "192.168.37.4"));
-                        Navigator.of(context).pushNamed(AppRoutes.addController);
+                        Navigator.of(context)
+                            .pushNamed(AppRoutes.addController);
                       });
                     },
                     child: Icon(Icons.add),
@@ -193,7 +185,6 @@ class ControllersViewState extends State<Controllers> {
         ));
   }
 }
-
 
 /*
 import 'package:flutter/material.dart';
