@@ -138,10 +138,12 @@ class _RegisterViewState extends State<Register> {
         onPressed: () async {
           //TODO: handle repasword missmatch
           try {
-            UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: _emailController.text,
-                password: _passwordController.text,
+            UserCredential userCredential =
+                await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              email: _emailController.text,
+              password: _passwordController.text,
             );
+            Navigator.of(context).pushNamed(AppRoutes.controllers);
           } on FirebaseAuthException catch (e) {
             if (e.code == 'weak-password') {
               print('The password provided is too weak.');
@@ -149,7 +151,7 @@ class _RegisterViewState extends State<Register> {
               print('The account already exists for that email.');
             } else {
               //No errors. Navigate to controllers screen
-              Navigator.of(context).pushNamed(AppRoutes.controllers);
+              print('Other Error');
             }
           } catch (e) {
             print(e);

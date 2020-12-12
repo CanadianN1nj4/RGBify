@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/theme/routes.dart';
 import 'package:rgbify/views/welcome_screen.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
