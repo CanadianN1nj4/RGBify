@@ -8,6 +8,7 @@ class AuthenticationService {
   AuthenticationService(this._firebaseAuth);
 
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
+  final _codeController = TextEditingController();
 
   //Signs a user in with email + password through firebase
   Future<String> signInWithEmail({BuildContext context, String email, String password}) async {
@@ -48,7 +49,9 @@ class AuthenticationService {
         phoneNumber: number,
         verificationCompleted: (PhoneAuthCredential credential) async {
           try {
-            await _firebaseAuth.signInWithPhoneNumber(number);
+
+            await _firebaseAuth.signInWithCredential(credential);
+            Navigator.of(context).pop();
 
             //Closes registrations screen after user is authorized and navigates to controllers screen
             return "Phone Verified";
@@ -60,8 +63,48 @@ class AuthenticationService {
         verificationFailed: (FirebaseAuthException e) {
           print (e.message);
         },
-        codeSent: null,
-        codeAutoRetrievalTimeout: null);
+        codeSent: (String verificationId, [int forceResendingToken]){
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text("Confirm you resieved the code."),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      TextField(
+                        controller: _codeController,
+                      ),
+                    ],
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("Confirm"),
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                      onPressed: () async{
+                        final code = _codeController.text.trim();
+
+                        PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.credential(
+                            verificationId: verificationId,
+                            smsCode: code
+                        );
+
+                        await _firebaseAuth.signInWithCredential(phoneAuthCredential);
+                        Navigator.of(context).pop();
+
+                      },
+                    )
+                  ],
+                );
+              }
+          );
+        },
+        timeout: Duration(seconds: 60),
+        codeAutoRetrievalTimeout: (String verificationId) {
+
+        });
 
     return "Verified";
   }
