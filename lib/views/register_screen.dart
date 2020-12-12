@@ -17,6 +17,7 @@ class _RegisterViewState extends State<Register> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _repasswordController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
 
   bool isSubmitting = false;
 
@@ -109,6 +110,26 @@ class _RegisterViewState extends State<Register> {
       ),
     );
 
+    final phoneField = TextFormField(
+      //enabled: isSubmitting,
+      controller: _phoneController,
+      keyboardType: TextInputType.phone,
+      cursorColor: Colors.white,
+      style: TextStyle(
+        color: Colors.white,
+      ),
+      decoration: InputDecoration(
+        hintText: "Optional",
+        labelText: "Phone Number",
+        hintStyle: TextStyle(
+          color: Colors.white,
+        ),
+        labelStyle: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
+
     final fields = Padding(
       padding: EdgeInsets.only(top: 10.0),
       child: Column(
@@ -118,6 +139,7 @@ class _RegisterViewState extends State<Register> {
           emailField,
           passwordField,
           repasswordField,
+          phoneField,
         ],
       ),
     );
@@ -138,6 +160,12 @@ class _RegisterViewState extends State<Register> {
               fontWeight: FontWeight.bold,
             )),
         onPressed: () {
+          if (_phoneController.text.isNotEmpty){
+            context.read<AuthenticationService>().verifyPhoneNumber(
+              context: context,
+              number: _phoneController.text,
+            ) ;
+          }
           context.read<AuthenticationService>().signUp(
             context: context,
             email: _emailController.text.trim(),
