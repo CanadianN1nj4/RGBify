@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/model/Controller.dart';
 import 'package:rgbify/theme/routes.dart';
+import 'package:provider/provider.dart';
+import 'package:rgbify/model/AuthenticationService.dart';
+
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'dart:async';
 import './BluetoothDeviceListEntry.dart';
@@ -118,6 +121,15 @@ class ControllersViewState extends State<Controllers> {
           title: Text(
             "My Controllers",
           ),
+          actions: <Widget>[
+            IconButton(
+                icon: const Icon(Icons.logout),
+                tooltip: "Sign Out",
+                onPressed: () {
+                  context.read<AuthenticationService>().signOut();
+                }
+            ),
+          ],
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),

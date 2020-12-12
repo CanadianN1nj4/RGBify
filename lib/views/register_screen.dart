@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/theme/routes.dart';
+import 'package:provider/provider.dart';
+import 'package:rgbify/model/AuthenticationService.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -15,6 +17,7 @@ class _RegisterViewState extends State<Register> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _repasswordController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
 
   bool isSubmitting = false;
 
@@ -107,6 +110,26 @@ class _RegisterViewState extends State<Register> {
       ),
     );
 
+    final phoneField = TextFormField(
+      //enabled: isSubmitting,
+      controller: _phoneController,
+      keyboardType: TextInputType.phone,
+      cursorColor: Colors.white,
+      style: TextStyle(
+        color: Colors.white,
+      ),
+      decoration: InputDecoration(
+        hintText: "Optional",
+        labelText: "Phone Number",
+        hintStyle: TextStyle(
+          color: Colors.white,
+        ),
+        labelStyle: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+    );
+
     final fields = Padding(
       padding: EdgeInsets.only(top: 10.0),
       child: Column(
@@ -116,6 +139,7 @@ class _RegisterViewState extends State<Register> {
           emailField,
           passwordField,
           repasswordField,
+          phoneField,
         ],
       ),
     );
@@ -135,27 +159,21 @@ class _RegisterViewState extends State<Register> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
-        onPressed: () async {
-          //TODO: handle repasword missmatch
-          try {
-            UserCredential userCredential =
-                await FirebaseAuth.instance.createUserWithEmailAndPassword(
-              email: _emailController.text,
-              password: _passwordController.text,
-            );
-            Navigator.of(context).pushNamed(AppRoutes.controllers);
-          } on FirebaseAuthException catch (e) {
-            if (e.code == 'weak-password') {
-              print('The password provided is too weak.');
-            } else if (e.code == 'email-already-in-use') {
-              print('The account already exists for that email.');
-            } else {
-              //No errors. Navigate to controllers screen
-              print('Other Error');
-            }
-          } catch (e) {
-            print(e);
+        
+        onPressed: () {
+          if (_phoneController.text.isNotEmpty){
+            context.read<AuthenticationService>().verifyPhoneNumber(
+              context: context,
+              number: _phoneController.text,
+            ) ;
+            
           }
+          context.read<AuthenticationService>().signUp(
+            context: context,
+            email: _emailController.text.trim(),
+            password: _repasswordController.text.trim(),
+          );
+
         },
       ),
     );
