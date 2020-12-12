@@ -109,6 +109,7 @@ class _LoginViewState extends State<Login> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
+
         onPressed: () {
           context.read<AuthenticationService>().signInWithEmail(
             email: _emailController.text.trim(),

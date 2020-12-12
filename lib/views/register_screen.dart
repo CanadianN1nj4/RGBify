@@ -159,12 +159,14 @@ class _RegisterViewState extends State<Register> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
+        
         onPressed: () {
           if (_phoneController.text.isNotEmpty){
             context.read<AuthenticationService>().verifyPhoneNumber(
               context: context,
               number: _phoneController.text,
             ) ;
+            
           }
           context.read<AuthenticationService>().signUp(
             context: context,

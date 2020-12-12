@@ -53,15 +53,38 @@ class WelcomeView extends StatelessWidget {
       ),
     );
 
+    final bluetoothButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(25),
+      color: Colors.white,
+      child: MaterialButton(
+        minWidth: mq.size.width / 1.2,
+        padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
+        child: Text(
+          "Bluetooth",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        onPressed: () async {
+          Navigator.of(context).pushNamed(AppRoutes.controllers);
+        },
+      ),
+    );
+
     final buttons = Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         loginButton,
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 15, 0 , 70),
+          padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
           child: registerButton,
         ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 15, 0, 70),
+          child: bluetoothButton,
+        )
       ],
     );
 
