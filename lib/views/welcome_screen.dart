@@ -27,7 +27,7 @@ class WelcomeView extends StatelessWidget {
               fontWeight: FontWeight.bold,
             )),
         onPressed: () {
-
+          Navigator.of(context).pushNamed(AppRoutes.authLogin);
         },
       ),
     );

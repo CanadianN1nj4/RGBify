@@ -6,7 +6,7 @@ import 'package:rgbify/theme/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:rgbify/views/welcome_screen.dart';
 import 'package:rgbify/views/controllers_screen.dart';
-import 'package:rgbify/views/login_screen.dart';
+import 'package:rgbify/views/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +46,7 @@ class AuthenticationWrapper extends StatelessWidget {
     if (firebaseUser != null) {
        return Controllers();
     }
-    return Login();
+    return WelcomeView();
 
   }
 }
