@@ -10,12 +10,13 @@ class AuthenticationService {
   Stream<User> get authStateChanges => _firebaseAuth.idTokenChanges();
 
   //Signs a user in with email + password through firebase
-  Future<String> signInWithEmail({String email, String password}) async {
+  Future<String> signInWithEmail({BuildContext context, String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      Navigator.pop(context);
       return "Signed In";
     } on FirebaseAuthException catch (e) {
       return e.message;
@@ -50,14 +51,15 @@ class AuthenticationService {
             await _firebaseAuth.signInWithPhoneNumber(number);
 
             //Closes registrations screen after user is authorized and navigates to controllers screen
-            Navigator.pop(context);
             return "Phone Verified";
 
           } on FirebaseAuthException catch (e) {
             return e.message;
           }
         },
-        verificationFailed: null,
+        verificationFailed: (FirebaseAuthException e) {
+          print (e.message);
+        },
         codeSent: null,
         codeAutoRetrievalTimeout: null);
 

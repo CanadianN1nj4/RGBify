@@ -112,6 +112,7 @@ class _LoginViewState extends State<Login> {
 
         onPressed: () {
           context.read<AuthenticationService>().signInWithEmail(
+            context: context,
             email: _emailController.text.trim(),
             password: _passwordController.text.trim(),
           );

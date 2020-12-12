@@ -58,8 +58,8 @@ class _RegisterViewState extends State<Register> {
         color: Colors.white,
       ),
       decoration: InputDecoration(
-        hintText: "yourEmail@example.com",
-        labelText: "Email",
+        hintText: "+1 (xxx)-xxx-xxxx",
+        labelText: "Email/Phone Number",
         hintStyle: TextStyle(
           color: Colors.white,
         ),
@@ -139,7 +139,6 @@ class _RegisterViewState extends State<Register> {
           emailField,
           passwordField,
           repasswordField,
-          phoneField,
         ],
       ),
     );
@@ -161,19 +160,22 @@ class _RegisterViewState extends State<Register> {
             )),
         
         onPressed: () {
-          if (_phoneController.text.isNotEmpty){
+
+          String patern = r'^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$';
+          RegExp regExp = new RegExp(patern);
+
+          if (regExp.hasMatch(_emailController.text)) {
             context.read<AuthenticationService>().verifyPhoneNumber(
               context: context,
-              number: _phoneController.text,
+              number: _emailController.text,
             ) ;
-            
+          } else {
+            context.read<AuthenticationService>().signUp(
+              context: context,
+              email: _emailController.text.trim(),
+              password: _repasswordController.text.trim(),
+            );
           }
-          context.read<AuthenticationService>().signUp(
-            context: context,
-            email: _emailController.text.trim(),
-            password: _repasswordController.text.trim(),
-          );
-
         },
       ),
     );
