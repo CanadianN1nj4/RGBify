@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rgbify/theme/routes.dart';
+import 'package:provider/provider.dart';
+import 'package:rgbify/model/AuthenticationService.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -135,25 +137,13 @@ class _RegisterViewState extends State<Register> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             )),
-        onPressed: () async {
-          //TODO: handle repasword missmatch
-          try {
-            UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: _emailController.text,
-                password: _passwordController.text,
-            );
-          } on FirebaseAuthException catch (e) {
-            if (e.code == 'weak-password') {
-              print('The password provided is too weak.');
-            } else if (e.code == 'email-already-in-use') {
-              print('The account already exists for that email.');
-            } else {
-              //No errors. Navigate to controllers screen
-              Navigator.of(context).pushNamed(AppRoutes.controllers);
-            }
-          } catch (e) {
-            print(e);
-          }
+        onPressed: () {
+          context.read<AuthenticationService>().signUp(
+            context: context,
+            email: _emailController.text.trim(),
+            password: _repasswordController.text.trim(),
+          );
+
         },
       ),
     );
