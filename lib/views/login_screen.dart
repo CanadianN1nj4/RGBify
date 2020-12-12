@@ -109,27 +109,23 @@ class _LoginViewState extends State<Login> {
               fontWeight: FontWeight.bold,
             )),
         onPressed: () async {
-          if (_emailController.text.isNotEmpty && _passwordController.text.isNotEmpty) {
-            try {
-              //Authorize user with email/password
-              UserCredential userCredential = await FirebaseAuth.instance
-                  .signInWithEmailAndPassword(
+          try {
+            //Authorize user with email/password
+            UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
                 email: _emailController.text,
                 password: _passwordController.text,
-              );
-            } on FirebaseAuthException catch (e) {
-              if (e.code == 'user-not-found') {
-                print('No user found for that email.');
-              } else if (e.code == 'wrong-password') {
-                print('Wrong password provided for that user.');
-              } else {
-                //No errors. Navigate to controllers screen
-                Navigator.of(context).pushNamed(AppRoutes.controllers);
-              }
+            );
+          } on FirebaseAuthException catch (e) {
+            if (e.code == 'user-not-found') {
+              print('No user found for that email.');
+            } else if (e.code == 'wrong-password') {
+              print('Wrong password provided for that user.');
+            } else {
+              //No errors. Navigate to controllers screen
+              Navigator.of(context).pushNamed(AppRoutes.controllers);
             }
-          } else {
-            print("Empty fields");
           }
+
 
         },
       ),
