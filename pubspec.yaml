@@ -16,6 +16,8 @@ dependencies:
   firebase_auth: ^0.18.1+1
   flutter_bluetooth_serial: ^0.2.2
   http: ^0.12.2
+  flutter_svg: ^0.15.0
+  google_fonts: ^1.1.1
 
 
   cupertino_icons: ^1.0.0
