@@ -3,15 +3,16 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
-import 'package:rgbify/theme/routes.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class ChatPage extends StatefulWidget {
+
+class PairWifi extends StatefulWidget {
   final BluetoothDevice server;
 
-  const ChatPage({this.server});
+  const PairWifi({this.server});
 
   @override
-  _ChatPage createState() => new _ChatPage();
+  _PairWifi createState() => new _PairWifi();
 }
 
 class _Message {
@@ -21,7 +22,7 @@ class _Message {
   _Message(this.whom, this.text);
 }
 
-class _ChatPage extends State<ChatPage> {
+class _PairWifi extends State<PairWifi> {
   static final clientID = 0;
   BluetoothConnection connection;
 
@@ -85,99 +86,95 @@ class _ChatPage extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Row> list = messages.map((_message) {
-      return Row(
-        children: <Widget>[
-          Container(
-            child: Text(
-                (text) {
-                  return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
-                }(_message.text.trim()),
-                style: TextStyle(color: Colors.white)),
-            padding: EdgeInsets.all(12.0),
-            margin: EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-            width: 222.0,
-            decoration: BoxDecoration(
-                color:
-                    _message.whom == clientID ? Colors.blueAccent : Colors.grey,
-                borderRadius: BorderRadius.circular(7.0)),
-          ),
-        ],
-        mainAxisAlignment: _message.whom == clientID
-            ? MainAxisAlignment.end
-            : MainAxisAlignment.start,
-      );
-    }).toList();
-
     return Scaffold(
-      appBar: AppBar(
-          title: (isConnecting
-              ? Text('Connecting chat to ' + widget.server.name + '...')
-              : isConnected
-                  ? Text('Live chat with ' + widget.server.name)
-                  : Text('Chat log with ' + widget.server.name))),
       body: SafeArea(
-        child: Column(
+        child: Padding( padding: EdgeInsets.all(50),
+              child:
+        Column(
           children: <Widget>[
-            Flexible(
-              child: ListView(
-                  padding: const EdgeInsets.all(12.0),
-                  controller: listScrollController,
-                  children: list),
+            Text(
+              "Enter Wi-Fi",
+              style:( GoogleFonts.alata( fontSize: 35,)
+              )
             ),
-            Row(
-              children: <Widget>[
-                Flexible(
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 16.0),
-                    child: TextField(
-                      style: const TextStyle(fontSize: 15.0),
-                      controller: textEditingController,
-                      decoration: InputDecoration.collapsed(
-                        hintText: isConnecting
-                            ? 'Wait until connected...'
-                            : isConnected
-                                ? 'Type your message...'
-                                : 'Chat got disconnected',
-                        hintStyle: const TextStyle(color: Colors.grey),
-                      ),
-                      enabled: isConnected,
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: (isConnected
-                          ? () => _sendMessage(textEditingController.text)
-                          : null)),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-      bottomNavigationBar: Container(
-            decoration: 
-              new BoxDecoration(
-                color: Colors.green[300],
-                borderRadius: new BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20))
+            Text(
+              "Information",
+              style:( GoogleFonts.alata( fontSize: 35,))
+            ),
+            const Divider(
+              color: Colors.grey,
+              height: 30,
+              thickness: 1,
+              indent: 0,
+              endIndent: 0,
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 50.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("SSID: ", textAlign: TextAlign.left,),
+              )
+            ),
+            TextField(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Enter Network SSID'
               ),
-            height: 60,
-            child: FlatButton(
-              onPressed: () {
-                      setState(() {
-                        //controllers.add(new Controller("Living Room", "192.168.37.4"));
-                        Navigator.of(context)
-                            .pushNamed(AppRoutes.pairWifi);
-                      });
-                    },
-              child: Text("Setup WiFi"),
+            ),
+            Padding(
+            padding: EdgeInsets.only(top: 50.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text("PASSWORD: ", textAlign: TextAlign.left,),
+              )
+            ),
+            TextField(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Enter Network Password'
+              ),
+            ),
+          ]
+        )
+        )
+      ),
+      bottomNavigationBar: Row(
+        children: <Widget>[
+          Expanded(
+            child:
+            Container(
+              decoration: new BoxDecoration(
+                color: Colors.grey,
+                borderRadius: new BorderRadius.only(topLeft: Radius.circular(10))
+              ),
+              height: 60,
+              child: FlatButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("SKIP", style: TextStyle(color: Colors.white)),
+              ),
           ),
           ),
+          Expanded(child:
+            Container(
+              decoration: new BoxDecoration(
+                color: Colors.green[300],
+                borderRadius: new BorderRadius.only(topRight: Radius.circular(10))
+              ),
+              height: 60,
+              child: FlatButton(
+                onPressed: () {
+                  _sendMessage("text");
+                  Navigator.pop(context);
+                },
+                child: Text("CONNECT", style: TextStyle(color: Colors.white)),
+              ),
+          ),
+          )
+        ]
+      )
     );
-
   }
 
   void _onDataReceived(Uint8List data) {
