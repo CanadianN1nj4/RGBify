@@ -114,46 +114,36 @@ class ControllersViewState extends State<Controllers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-            slivers: <Widget>[
-              SliverAppBar(
-                expandedHeight: 220.0,
-                floating: true,
-                pinned: true,
-                snap: true,
-                elevation: 50,
-                backgroundColor: Colors.green,
-                flexibleSpace:
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          stops: [0.2, 0.5, 0.8],
-                          colors: [Colors.green, Colors.blue,Colors.red]
-                      ),),
-                    child:
-                
-                
-                
-                
-                FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text('RGBify',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16.0,
-                        )),
-                ),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            expandedHeight: 220.0,
+            floating: true,
+            pinned: true,
+            snap: true,
+            elevation: 50,
+            backgroundColor: Colors.green,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    stops: [0.2, 0.5, 0.8],
+                    colors: [Colors.green, Colors.blue, Colors.red]),
               ),
+              child: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text('RGBify',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    )),
               ),
-              new 
-              SliverPadding(
-
-                padding: EdgeInsets.all(30),
-                sliver:
-              SliverGrid(
-
+            ),
+          ),
+          new SliverPadding(
+              padding: EdgeInsets.all(30),
+              sliver: SliverGrid(
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200.0,
                   mainAxisSpacing: 10.0,
@@ -163,39 +153,39 @@ class ControllersViewState extends State<Controllers> {
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
                     return ControllerScreenElement(
-                    device: devices[index].device,
-                    onTap: () {
+                      device: devices[index].device,
+                      onTap: () {
                         _startChat(context, devices[index].device);
-                    },
-                    imagePath: "assets/Images/led_strip.svg" ,
-                  );
+                      },
+                      onLongPress: () {
+                        setState(() {
+                          devices.removeAt(index);
+                        });
+                      },
+                      imagePath: "assets/Images/led_strip.svg",
+                    );
                   },
                   childCount: devices.length,
                 ),
-              )
-              ),
-            ],
-            
-          ),
-          bottomNavigationBar: Container(
-            decoration: 
-              new BoxDecoration(
-                color: Colors.green[300],
-                borderRadius: new BorderRadius.only(topRight: Radius.circular(20), topLeft: Radius.circular(20))
-              ),
-            height: 60,
-            child: FlatButton(
-              onPressed: () {
-                      setState(() {
-                        //controllers.add(new Controller("Living Room", "192.168.37.4"));
-                        Navigator.of(context)
-                            .pushNamed(AppRoutes.addController);
-                      });
-                    },
-              child: Icon(Icons.add,color: Colors.white,size: 30),
-          ),
-          ),
+              )),
+        ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: new BoxDecoration(
+            color: Colors.green[300],
+            borderRadius: new BorderRadius.only(
+                topRight: Radius.circular(20), topLeft: Radius.circular(20))),
+        height: 60,
+        child: FlatButton(
+          onPressed: () {
+            setState(() {
+              //controllers.add(new Controller("Living Room", "192.168.37.4"));
+              Navigator.of(context).pushNamed(AppRoutes.addController);
+            });
+          },
+          child: Icon(Icons.add, color: Colors.white, size: 30),
+        ),
+      ),
     );
   }
 }
-
