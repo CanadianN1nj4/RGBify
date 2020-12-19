@@ -17,6 +17,8 @@ dependencies:
   provider: ^4.3.2+1
   flutter_bluetooth_serial: ^0.2.2
   http: ^0.12.2
+  flutter_svg: ^0.15.0
+  google_fonts: ^1.1.1
   flutter_colorpicker: ^0.3.4
 
 
