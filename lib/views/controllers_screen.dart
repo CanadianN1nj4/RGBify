@@ -183,8 +183,9 @@ class ControllersViewState extends State<Controllers> {
                     onPressed: () {
                       setState(() {
                         //controllers.add(new Controller("Living Room", "192.168.37.4"));
-                        Navigator.of(context)
-                            .pushNamed(AppRoutes.addController);
+                        //Navigator.of(context).pushNamed(AppRoutes.addController);
+
+                        Navigator.of(context).pushNamed(AppRoutes.commands);
                       });
                     },
                     child: Icon(Icons.add),

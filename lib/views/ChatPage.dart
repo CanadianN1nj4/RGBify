@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:rgbify/theme/routes.dart';
 
 class ChatPage extends StatefulWidget {
   final BluetoothDevice server;
@@ -32,6 +33,7 @@ class _ChatPage extends State<ChatPage> {
   final ScrollController listScrollController = new ScrollController();
 
   bool isConnecting = true;
+
   bool get isConnected => connection != null && connection.isConnected;
 
   bool isDisconnecting = false;
@@ -110,11 +112,21 @@ class _ChatPage extends State<ChatPage> {
 
     return Scaffold(
       appBar: AppBar(
-          title: (isConnecting
-              ? Text('Connecting chat to ' + widget.server.name + '...')
-              : isConnected
-                  ? Text('Live chat with ' + widget.server.name)
-                  : Text('Chat log with ' + widget.server.name))),
+        title: (isConnecting
+            ? Text('Connecting chat to ' + widget.server.name + '...')
+            : isConnected
+                ? Text('Live chat with ' + widget.server.name)
+                : Text('Chat log with ' + widget.server.name)),
+        actions: <Widget>[
+          IconButton(
+              icon: const Icon(Icons.apps),
+              tooltip: "Quick Commands",
+              onPressed: () {
+                Navigator.of(context).pushNamed(AppRoutes.commands);
+              }
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Column(
           children: <Widget>[

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 
 class Commands extends StatefulWidget{
@@ -10,7 +11,16 @@ class Commands extends StatefulWidget{
 
 class _CommandsViewState extends State<Commands>{
 
-  bool controllerIsOn = false;
+  bool controllerIsOn = true;
+
+  // create some values
+  Color pickerColor = Color(0xff443a49);
+  Color currentColor = Color(0xff443a49);
+
+  // ValueChanged<Color> callback
+  void changeColor(Color color) {
+    setState(() => pickerColor = color);
+  }
 
   //Function to call API and toggle controller power
   Future<http.Response> togglePower(String setting) async {
@@ -44,7 +54,7 @@ class _CommandsViewState extends State<Commands>{
         //Button will always appear the same regardless of device
         minWidth: mq.size.width / 1.2,
         padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
-        child: Text( controllerIsOn? "On" : "Off",
+        child: Text( controllerIsOn? "Power: On" : "Power: Off",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 30.0,
@@ -63,22 +73,118 @@ class _CommandsViewState extends State<Commands>{
       ),
     );
 
+    final rainbowButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(25),
+      color: Colors.blueAccent,
+      child: MaterialButton(
+        //Button will always appear the same regardless of device
+        minWidth: mq.size.width / 1.2,
+        padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+        child: Text( "Rainbow Animation",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30.0,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
+        onPressed: () {
+        },
+      ),
+    );
+
+    final setColorButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(25),
+      color: currentColor,
+      child: MaterialButton(
+        //Button will always appear the same regardless of device
+        minWidth: mq.size.width / 1.2,
+        padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+        child: Text( "Color Picker",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30.0,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
+        onPressed: () {
+          // raise the [showDialog] widget
+          showDialog(
+            context: context,
+            child: AlertDialog(
+              title: const Text('Pick a color!'),
+              content: SingleChildScrollView(
+                child: ColorPicker(
+                  pickerColor: pickerColor,
+                  onColorChanged: changeColor,
+                  showLabel: true,
+                  pickerAreaHeightPercent: 0.8,
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: const Text('Okay'),
+                  onPressed: () {
+                    setState(() => currentColor = pickerColor);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+
+
+        },
+      ),
+    );
+
+    final blinkButton = Material(
+      elevation: 5.0,
+      borderRadius: BorderRadius.circular(25),
+      color: Colors.blueAccent,
+      child: MaterialButton(
+        //Button will always appear the same regardless of device
+        minWidth: mq.size.width / 1.2,
+        padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 15.0),
+        child: Text( "Blink Rate",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30.0,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
+        onPressed: () {
+        },
+      ),
+    );
+
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange,
         title: Text(
-          "Controller Commands"
+          "Quick Commands"
         ),
       ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.all(20),
-          ),
-          Center(
-            child: powerButton,
+          SingleChildScrollView(
+            padding: EdgeInsets.all(36),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                rainbowButton,
+                SizedBox(height: 30),
+                blinkButton,
+                SizedBox(height: 30),
+                setColorButton,
+                SizedBox(height: 100),
+                powerButton,
+              ],
+            )
           )
-        ]
+        ],
       ),
     );
 
