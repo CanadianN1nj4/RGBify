@@ -65,6 +65,7 @@ class _CommandsViewState extends State<Commands> {
             )),
         onPressed: () {
           setState(() {
+            print("Rainbow Animation");
             isRainbowOn = !isRainbowOn;
             if (isRainbowOn) {
               isBlinkOn = false;
@@ -92,6 +93,7 @@ class _CommandsViewState extends State<Commands> {
             )),
         onPressed: () {
           setState(() {
+            print("Blink Animation");
             //Update states
             isBlinkOn = !isBlinkOn;
             if (isBlinkOn) {
@@ -120,6 +122,7 @@ class _CommandsViewState extends State<Commands> {
             )),
         onPressed: () {
           setState(() {
+            print("Rain Animation");
             isRainOn = !isRainOn;
             if (isRainOn) {
               isBlinkOn = false;
@@ -163,6 +166,7 @@ class _CommandsViewState extends State<Commands> {
                 FlatButton(
                   child: const Text('Okay'),
                   onPressed: () {
+                    print("New Color");
                     setState(() => currentColor = pickerColor);
                     Navigator.of(context).pop();
                   },
